@@ -1,5 +1,6 @@
 public class Estoque{
-	private Produto produto;  
+	private int id;
+	private Produto produto;
 	private long quantidade;
 
   public Estoquex(Produto produto, long quantidade) {
