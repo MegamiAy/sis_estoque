@@ -1,11 +1,12 @@
 public class Fornecedor{
   private String nome;
-	private int id;
+	private int idF;
 	private String desc;  
 	private String fone;
 	private String endereco; 
 
-  public Fornecedor(String nome, String desc, String fone, String endereco) {
+  public Fornecedor(int idF, String nome, String desc, String fone, String endereco) {
+      this.idF = idF;
       this.nome = nome;
       this.desc = desc;
       this.fone = fone;
