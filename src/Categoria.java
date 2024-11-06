@@ -1,8 +1,10 @@
 public class Categoria{
-  private String nome;
+	private int idC;
+	private String nome;
 	private String desc;   
 
-  public Categoria(String nome, String desc) {
+  public Categoria(int idC, String nome, String desc) {
+      this.idC = idC;
       this.nome = nome;
       this.desc = desc;
   }
