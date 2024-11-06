@@ -1,9 +1,10 @@
 public class Estoque{
-	private int id;
+	private int idE;
 	private Produto produto;
 	private long quantidade;
 
-  public Estoquex(Produto produto, long quantidade) {
+  public Estoque(int idE, Produto produto, long quantidade) {
+      this.idE = idE;
       this.produto = produto;
       this.quantidade = quantidade;
   }
