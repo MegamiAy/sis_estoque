@@ -1,5 +1,6 @@
 public class Fornecedor{
   private String nome;
+	private int id;
 	private String desc;  
 	private String fone;
 	private String endereco; 
