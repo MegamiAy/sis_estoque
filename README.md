@@ -11,8 +11,9 @@
 </ul>
 
 ### Banco de Dados
-![image](https://github.com/user-attachments/assets/27925dfa-9b3f-4885-946d-7b454c4b30e9)
+![image](https://github.com/user-attachments/assets/1d4f0069-8476-4dac-828a-87b5fca7fbf2)
 
 ### Diagrama de Classes
-![image](https://github.com/user-attachments/assets/144c7275-55d6-4dc0-8f19-ae8d7d824f50)
+![image](https://github.com/user-attachments/assets/06f30ca7-f8cc-4f8a-b329-9b3ef9089266)
+
 
