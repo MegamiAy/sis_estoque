@@ -2,13 +2,11 @@
 > Por: Gabrieli Lembeck e Laiz Detros
 
 ### Sistema de controle básico de estoque
-<ul>
-  <li>Adicionar</li>
-  <li>listar</li>
-  <li>Editar</li>
-  <li>Deletar</li>
-  <li>Checar</li>
-</ul>
+* Adicionar
+* listar
+* Editar
+* Deletar
+* Checar
 
 ### Banco de Dados
 ![image](https://github.com/user-attachments/assets/1d4f0069-8476-4dac-828a-87b5fca7fbf2)
