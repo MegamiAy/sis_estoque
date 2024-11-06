@@ -1,7 +1,7 @@
 CREATE TABLE produto (
-  cod INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   nome VARCHAR(255) NOT NULL,
-  descr VARCHAR(255),
+  descricao VARCHAR(255),
   preco DOUBLE,
   qt_estoque INT,
   id_categoria INT,
@@ -13,7 +13,7 @@ CREATE TABLE produto (
 CREATE TABLE fornecedor (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   nome VARCHAR(255) NOT NULL,
-  fone VARCHAR(255),
+  telefone BIGINT,
   email VARCHAR(255),
   endereco VARCHAR(255)
 );
@@ -21,5 +21,5 @@ CREATE TABLE fornecedor (
 CREATE TABLE categoria (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   nome VARCHAR(255) NOT NULL,
-  descr VARCHAR(255),
+  descricao VARCHAR(255),
 );
