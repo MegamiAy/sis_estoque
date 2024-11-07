@@ -3,8 +3,8 @@
 
 ### Sistema de controle básico de estoque
 * Adicionar
-* listar
 * Editar
+* Listar
 * Deletar
 * Checar
 
