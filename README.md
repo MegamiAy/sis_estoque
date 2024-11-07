@@ -9,7 +9,7 @@
 * Checar
 
 ### Banco de Dados
-![image](https://github.com/user-attachments/assets/b7c1b911-6d3b-4da6-9967-975bce0d148a)
+![image](https://github.com/user-attachments/assets/2dff072b-e3b3-4ab6-9585-3b0a7e8ccc6d)
 
 ### Diagrama de Classes
-![image](https://github.com/user-attachments/assets/26b04d39-4858-42b8-97b6-638e58783dc9)
+![image](https://github.com/user-attachments/assets/d8178735-1389-4359-a45a-87bc4e2943e5)
