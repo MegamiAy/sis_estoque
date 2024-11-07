@@ -6,46 +6,34 @@ Estoque precisa de produto
 CREATE DATABASE EstoqueDB;
 USE EstoqueDB;
 
--- Tabela Fornecedor
-CREATE TABLE Fornecedor (
+CREATE TABLE fornecedor (
     id INT PRIMARY KEY,
     nome VARCHAR(255),
-    telefone VARCHAR(15),
+    fone VARCHAR(15),
     email VARCHAR(255),
     endereco VARCHAR(255)
 );
 
--- Tabela Marca
-CREATE TABLE Marca (
-    id INT PRIMARY KEY,
-    nome VARCHAR(255),
-    origem VARCHAR(255)
-);
-
--- Tabela Categoria
-CREATE TABLE Categoria (
+CREATE TABLE categoria (
     id INT PRIMARY KEY,
     nome VARCHAR(255),
     descricao VARCHAR(255)
 );
 
--- Tabela Produto
-CREATE TABLE Produto (
+CREATE TABLE produto (
     id INT PRIMARY KEY,
     nome VARCHAR(255),
     descricao VARCHAR(255),
     preco DOUBLE,
-    id_marca INT,
-    id_categoria INT,
-    id_fornecedor INT,
-    FOREIGN KEY (id_marca) REFERENCES Marca(id),
-    FOREIGN KEY (id_categoria) REFERENCES Categoria(id),
-    FOREIGN KEY (id_fornecedor) REFERENCES Fornecedor(id)
+    id_cat INT,
+    id_forn INT,
+    FOREIGN KEY (id_cat) REFERENCES categoria(id),
+    FOREIGN KEY (id_forn) REFERENCES fornecedor(id)
 );
 
--- Tabela Estoque
-CREATE TABLE Estoque (
+CREATE TABLE estoque (
     id INT PRIMARY KEY,
-    id_produto INT,
+    id_prod INT,
     quantidade INT,
-    FOREIGN KEY (id_pr
+    FOREIGN KEY (id_prod) REFERENCES produto(id)
+);
