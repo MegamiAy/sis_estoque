@@ -7,22 +7,22 @@ CREATE DATABASE EstoqueDB;
 USE EstoqueDB;
 
 CREATE TABLE fornecedor (
-    id INT PRIMARY KEY,
-    nome VARCHAR(255),
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
     fone VARCHAR(15),
     email VARCHAR(255),
     endereco VARCHAR(255)
 );
 
 CREATE TABLE categoria (
-    id INT PRIMARY KEY,
-    nome VARCHAR(255),
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
     descricao VARCHAR(255)
 );
 
 CREATE TABLE produto (
-    id INT PRIMARY KEY,
-    nome VARCHAR(255),
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
     descricao VARCHAR(255),
     preco DOUBLE,
     id_cat INT,
@@ -32,8 +32,8 @@ CREATE TABLE produto (
 );
 
 CREATE TABLE estoque (
-    id INT PRIMARY KEY,
-    id_prod INT,
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id_prod INT NOT NULL,
     quantidade INT,
     FOREIGN KEY (id_prod) REFERENCES produto(id)
 );
