@@ -77,4 +77,22 @@ public class ProdutoFuncs implements ProdutoInt{
 	    }
 	}
 
+
+	// regra de négocio 1
+	public void checkEstoqueMin(int idProduto, int qtMin) {
+	    String sql = "SELECT quantidade FROM estoque WHERE id_prod = ?";
+	    try (PreparedStatement pst = connect.prepareStatement(sql)) {
+	        pst.setInt(1, idProduto);
+	        ResultSet rst = pst.executeQuery();
+	        if (rst.next()) {
+	            int qtAtual = rst.getInt("quantidade");
+	            if (qtAtual <= qtMin) {
+	                System.out.printf("Atenção: Produto ID %d está com estoque baixo (%d unidades).%n", idProduto, qtAtual);
+	            }
+	        }
+	    } catch (SQLException se) {
+	        System.out.println("Erro ao verificar estoque: " + se.getMessage());
+	    }
+	}
+
 }
