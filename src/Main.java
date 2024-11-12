@@ -34,8 +34,8 @@ public class Main {
                     System.out.print("Informe o ID do Fornecedor: ");
                     int idFornAdd = scanner.nextInt();
             
-                    Categoria categoriaAdd = new Categoria(idCatAdd, "Categoria Padrão", "Descrição da Categoria");
-                    Fornecedor fornecedorAdd = new Fornecedor(idFornAdd, "Fornecedor Padrão", "123456789", "email@fornecedor.com", "Endereço do Fornecedor");
+                    Categoria categoriaAdd = new Categoria(idCatAdd, "Alimentos", "uiuiuiui");
+                    Fornecedor fornecedorAdd = new Fornecedor(idFornAdd, "Fornecedor Aurora", "123456789", "email@fornecedor.com", "rua das serpentes largas");
                     Produto novoProduto = new Produto(idAdd, nomeAdd, descAdd, precoAdd, categoriaAdd, fornecedorAdd);
                     
                     produtoFuncs.addProd(novoProduto);
@@ -62,9 +62,17 @@ public class Main {
                     produtoFuncs.listProd();
                     break;
                 case 4:
-                    System.out.print("Informe o ID do produto para remover: ");
-                    int id = scanner.nextInt();
-                    produtoFuncs.delProd(id);
+                    List<Produto> produtos = produtoFuncs.listProd();
+                    if (produtos.isEmpty()) {
+                        System.out.println("Nenhum produto encontrado.");
+                    } else {
+                        System.out.println("Lista de Produtos:");
+                        for (Produto produto : produtos) {
+                            System.out.printf("ID: %d, Nome: %s, Descrição: %s, Preço: %.2f, Categoria ID: %d, Fornecedor ID: %d%n",
+                                    produto.getId(), produto.getNome(), produto.getDesc(), produto.getPreco(),
+                                    produto.getCategoria().getId(), produto.getFornecedor().getId());
+                        }
+                    }
                     break;
                 case 5:
                     System.out.print("Informe o ID do produto e a quantidade mínima para verificar: ");
