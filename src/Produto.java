@@ -1,5 +1,5 @@
 public class Produto{
-  private String nome;
+  	private String nome;
 	private int id;
 	private String desc;
 	private double preco;
@@ -18,6 +18,10 @@ public class Produto{
   // getters
   public int getId(){
 	  return id;
+  }
+
+  public String getNome(){
+	  return nome;
   }
 
   public String getDesc(){
