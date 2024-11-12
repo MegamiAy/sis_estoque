@@ -27,22 +27,30 @@ public class ProdutoFuncs implements ProdutoInt {
         }
     }
 
-    public void listProd() {
+    public List<Produto> listProd() {
         connectionDB();
         String sql = "SELECT id, nome, descricao, preco, id_cat, id_forn FROM produto";
+        List<Produto> produtos = new ArrayList<>();
         try (PreparedStatement pst = connect.prepareStatement(sql);
              ResultSet rst = pst.executeQuery()) {
 
             while (rst.next()) {
-                System.out.printf("ID Produto: %d, Nome: %s, Descrição: %s, Preço: %.2f, Categoria (ID): %d, Fornecedor (ID): %d%n",
-                        rst.getInt("id"), rst.getString("nome"), rst.getString("descricao"),
-                        rst.getDouble("preco"), rst.getInt("id_cat"), rst.getInt("id_forn"));
+                Produto produto = new Produto(
+                    rst.getInt("id"),
+                    rst.getString("nome"),
+                    rst.getString("descricao"),
+                    rst.getDouble("preco"),
+                    new Categoria(rst.getInt("id_cat"), "", ""), 
+                    new Fornecedor(rst.getInt("id_forn"), "", "", "", "")
+                );
+                produtos.add(produto);
             }
         } catch (SQLException se) {
             System.out.println("Erro ao consultar produtos: " + se.getMessage());
         }
+        return produtos; 
     }
-
+    
     public void editProd(int id, String nome, String desc, double preco, int categoria, int fornecedor) {
         connectionDB();
         String sql = "UPDATE produto SET nome = ?, descricao = ?, preco = ?, id_cat = ?, id_forn = ? WHERE id = ?";
