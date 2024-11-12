@@ -5,7 +5,7 @@ public class Fornecedor {
     private String email;
     private String endereco;
 
-    // Construtor, getters e setters
+    // Construtor, getters e setters e tostring
     public Fornecedor(int idF, String nome, String fone, String email, String endereco) {
         this.idF = idF;
         this.nome = nome;
@@ -14,7 +14,7 @@ public class Fornecedor {
         this.endereco = endereco;
     }
 
-    public int getidF() { return id; }
+    public int getIdF() { return idF; }
     public String getNome() { return nome; }
     public String getFone() { return fone; }
     public String getEmail() { return email; }
@@ -22,7 +22,8 @@ public class Fornecedor {
 
     @Override
     public String toString() {
-        return "Fornecedor{" + "id="+idF+", nome='"+nome+'\''+", fone='"+fone+'\''+
-               ", email='"+email+'\''+", endereco='"+endereco+'\''+'}';
+        return "Fornecedor{"+"id="+idF+", nome='"+nome+'\'' +
+               ", fone='"+fone+'\''+", email='"+email+'\'' +
+               ", endereco='"+endereco+'\''+'}';
     }
 }
