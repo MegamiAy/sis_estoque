@@ -1,7 +1,6 @@
 # Sistema de Estoque
 > Por: Gabrieli Lembeck e Laiz Detros
 
-## Sistema de controle básico de estoque
 Um sistema projetado para gerenciar produtos e facilitar operações como adição, edição, listagem e verificação de itens em estoque. Ideal para pequenas e médias empresas que precisam manter um controle eficiente e organizado de seus produtos e fornecedores.
 
 ### Funcionalidades
