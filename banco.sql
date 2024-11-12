@@ -38,9 +38,6 @@ CREATE TABLE estoque (
     FOREIGN KEY (id_prod) REFERENCES produto(id)
 );
 
--- Selecionamos o banco de dados criado
-USE EstoqueDB;
-
 -- Inserindo registros na tabela 'fornecedor'
 INSERT INTO fornecedor (nome, fone, email, endereco) VALUES
 ('Tech Delulu', '123456789', 'contato@techdelulu.com', 'Avenida Tecnologia, 101'),
@@ -55,7 +52,6 @@ INSERT INTO categoria (nome, descricao) VALUES
 ('Alimentos', 'Produtos alimentícios e bebidas');
 
 -- Inserindo registros na tabela 'produto'
--- Lembrando que a coluna id_cat refere-se à categoria e id_forn refere-se ao fornecedor
 INSERT INTO produto (nome, descricao, preco, id_cat, id_forn) VALUES
 ('Xaiomi 99', 'Celular de última geração', 1500.00, 1, 1),
 ('Notebook Positivo', 'Notebook capenga', 3000.00, 1, 2),
@@ -63,9 +59,8 @@ INSERT INTO produto (nome, descricao, preco, id_cat, id_forn) VALUES
 ('Dollynho Guarana', 'Refrigerante de 2 litros, o sabor brasileiro!', 5.00, 3, 1);
 
 -- Inserindo registros na tabela 'estoque'
--- Utiliza o id dos produtos criados acima
 INSERT INTO estoque (id_prod, quantidade) VALUES
-(1, 100),  -- Estoque para o 'Celular'
-(2, 50),   -- Estoque para o 'Notebook'
-(3, 200),  -- Estoque para a 'Camisa'
-(4, 500);  -- Estoque para o 'Refrigerante'
+(1, 100),
+(2, 50),
+(3, 200),
+(4, 500);
