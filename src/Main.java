@@ -12,40 +12,65 @@ public class Main {
             System.out.println("2. Editar Produto");
             System.out.println("3. Listar Produtos");
             System.out.println("4. Remover Produto");
-            System.out.println("5. Buscar Produto");
-            System.out.println("6. Verificar Estoque Mínimo");
+            System.out.println("5. Verificar Estoque Mínimo");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
 
             switch (opcao) {
                 case 1:
-                    Categoria categoria = new Categoria(1, "Eletrônicos", "Dispositivos eletrônicos");
-                    Fornecedor fornecedor = new Fornecedor(1, "Tech Delulu", "123456789", "contato@techdelulu.com", "Avenida Tecnologia, 101");
-                    Produto produto = new Produto(1, "Xaiomi 99", "Celular", 1500.00, categoria, fornecedor);
-                    produtoFuncs.adicionarProduto(produto);
+                    System.out.println("Adicionar Produto:");
+                    System.out.print("Informe o ID do Produto: ");
+                    int idAdd = scanner.nextInt();
+                    scanner.nextLine(); // Limpar o buffer
+                    System.out.print("Informe o Nome do Produto: ");
+                    String nomeAdd = scanner.nextLine();
+                    System.out.print("Informe a Descrição do Produto: ");
+                    String descAdd = scanner.nextLine();
+                    System.out.print("Informe o Preço do Produto: ");
+                    double precoAdd = scanner.nextDouble();
+                    System.out.print("Informe o ID da Categoria: ");
+                    int idCatAdd = scanner.nextInt();
+                    System.out.print("Informe o ID do Fornecedor: ");
+                    int idFornAdd = scanner.nextInt();
+            
+                    Categoria categoriaAdd = new Categoria(idCatAdd, "Categoria Padrão", "Descrição da Categoria");
+                    Fornecedor fornecedorAdd = new Fornecedor(idFornAdd, "Fornecedor Padrão", "123456789", "email@fornecedor.com", "Endereço do Fornecedor");
+                    Produto novoProduto = new Produto(idAdd, nomeAdd, descAdd, precoAdd, categoriaAdd, fornecedorAdd);
+                    
+                    produtoFuncs.addProd(novoProduto);
                     break;
                 case 2:
-                    // edit
+                    System.out.println("Editar Produto:");
+                    System.out.print("Informe o ID do Produto para editar: ");
+                    int idEdit = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("Informe o Novo Nome do Produto: ");
+                    String nomeEdit = scanner.nextLine();
+                    System.out.print("Informe a Nova Descrição do Produto: ");
+                    String descEdit = scanner.nextLine();
+                    System.out.print("Informe o Novo Preço do Produto: ");
+                    double precoEdit = scanner.nextDouble();
+                    System.out.print("Informe o Novo ID da Categoria: ");
+                    int idCatEdit = scanner.nextInt();
+                    System.out.print("Informe o Novo ID do Fornecedor: ");
+                    int idFornEdit = scanner.nextInt();
+            
+                    produtoFuncs.editProd(idEdit, nomeEdit, descEdit, precoEdit, idCatEdit, idFornEdit);
                     break;
                 case 3:
-                    produtoFuncs.listarProdutos();
+                    produtoFuncs.listProd();
                     break;
                 case 4:
                     System.out.print("Informe o ID do produto para remover: ");
                     int id = scanner.nextInt();
-                    produtoFuncs.removerProduto(id);
+                    produtoFuncs.delProd(id);
                     break;
                 case 5:
-                    System.out.print("Informe o ID do produto para buscar: ");
+                    System.out.print("Informe o ID do produto e a quantidade mínima para verificar: ");
                     id = scanner.nextInt();
-                    Produto prodBuscado = produtoFuncs.searchProduto(id);
-                    System.out.println("Produto encontrado: " + prodBuscado);
-                    break;
-                case 6:
-                    System.out.print("Informe a quantidade mínima: ");
                     int qtMinima = scanner.nextInt();
-                    produtoFuncs.checkQtdMin(qtMinima);
+                    produtoFuncs.checkEstoqueMin(id, qtMinima);
                     break;
                 case 0:
                     System.out.println("Saindo do sistema.");
