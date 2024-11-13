@@ -4,6 +4,7 @@ public class Fornecedor {
     private String fone;
     private String email;
     private String endereco;
+    private static List<Fornecedor> listFornecedores = new ArrayList<>();
 
     // Construtor, getters e setters e tostring
     public Fornecedor(int idF, String nome, String fone, String email, String endereco) {
@@ -12,6 +13,7 @@ public class Fornecedor {
         this.fone = fone;
         this.email = email;
         this.endereco = endereco;
+        listFornecedores.add(this);
     }
 
     public int getIdF() { return idF; }
@@ -19,6 +21,9 @@ public class Fornecedor {
     public String getFone() { return fone; }
     public String getEmail() { return email; }
     public String getEndereco() { return endereco; }
+    public static List<Fornecedor> listarFornecedores() {
+        return listaFornecedores;
+    }
 
     @Override
     public String toString() {
