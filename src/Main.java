@@ -2,7 +2,11 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        // para interagir com as funções dentro dessas classes/interface
         ProdutoFuncs produtoFuncs = new ProdutoFuncs();
+        CategoriaFuncs categoriaFuncs = new CategoriaFuncs();
+        FornecedorFuncs fornecedorFuncs = new FornecedorFuncs();
+        EstoqueFuncs estoqueFuncs = new EstoqueFuncs();
         Scanner scanner = new Scanner(System.in);
         int opcao;
 
@@ -24,7 +28,7 @@ public class Main {
                     System.out.println("Adicionar Produto:");
                     System.out.print("Informe o ID do Produto: ");
                     int idAdd = scanner.nextInt();
-                    scanner.nextLine(); // Limpar o buffer
+                    scanner.nextLine();
                     System.out.print("Informe o Nome do Produto: ");
                     String nomeAdd = scanner.nextLine();
                     System.out.print("Informe a Descrição do Produto: ");
@@ -81,7 +85,7 @@ public class Main {
                 case 4:
                     System.out.print("Informe o ID do Produto para remover: ");
                     int idRemover = scanner.nextInt();
-                    produtoFuncs.removeProd(idRemover);
+                    produtoFuncs.delProd(idRemover);
                     System.out.println("Produto removido com sucesso!");
                     break;
                 case 5:
@@ -90,15 +94,15 @@ public class Main {
                     int qtMinima = scanner.nextInt();
                     produtoFuncs.checkEstoqueMin(idCheck, qtMinima);
                     break;
-                case 6:
+                 case 6:
                     System.out.println("Categorias Cadastradas:");
-                    for (Categoria categoria : Categoria.listarCategorias()) {
+                    for (Categoria categoria : Categoria.listCategorias()) {
                         System.out.println(categoria);
                     }
                     break;
                 case 7:
                     System.out.println("Fornecedores Cadastrados:");
-                    for (Fornecedor fornecedor : Fornecedor.listarFornecedores()) {
+                    for (Fornecedor fornecedor : Fornecedor.listFornecedores()) {
                         System.out.println(fornecedor);
                     }
                     break;
