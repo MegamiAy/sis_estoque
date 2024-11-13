@@ -116,4 +116,31 @@ public class ProdutoFuncs implements ProdutoInt {
         }
         return estoqueBaixo;
     }
+
+    @Override
+    public Produto getProdutoById(int id) {
+        connectionDB();
+        String sql = "SELECT id, nome, descricao, preco, id_cat, id_forn FROM produto WHERE id = ?";
+        Produto produto = null;
+        
+            try (PreparedStatement pst = connect.prepareStatement(sql)) {
+                pst.setInt(1, id);
+                ResultSet rst = pst.executeQuery();
+            
+                if (rst.next()) {
+                    produto = new Produto(
+                        rst.getInt("id"),
+                        rst.getString("nome"),
+                        rst.getString("descricao"),
+                        rst.getDouble("preco"),
+                        new Categoria(rst.getInt("id_cat"), "", ""),
+                        new Fornecedor(rst.getInt("id_forn"), "", "", "", "")
+                    );
+                }
+            } catch (SQLException se) {
+                System.out.println("Erro ao buscar produto: " + se.getMessage());
+            }
+        return produto;
+        }
+    }
 }
