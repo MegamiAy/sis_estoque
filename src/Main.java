@@ -13,6 +13,8 @@ public class Main {
             System.out.println("3. Listar Produtos");
             System.out.println("4. Remover Produto");
             System.out.println("5. Verificar Estoque Mínimo");
+            System.out.println("6. Listar Categorias");
+            System.out.println("7. Listar Fornecedores");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
@@ -36,9 +38,14 @@ public class Main {
             
                     Categoria categoriaAdd = new Categoria(idCatAdd, "Alimentos", "uiuiuiui");
                     Fornecedor fornecedorAdd = new Fornecedor(idFornAdd, "Fornecedor Aurora", "123456789", "email@fornecedor.com", "rua das serpentes largas");
-                    Produto novoProduto = new Produto(idAdd, nomeAdd, descAdd, precoAdd, categoriaAdd, fornecedorAdd);
+                    if (categoriaAdd != null && fornecedorAdd != null) {
+                        Produto novoProduto = new Produto(idAdd, nomeAdd, descAdd, precoAdd, categoriaAdd, fornecedorAdd);   
+                        produtoFuncs.addProd(novoProduto);
+                        System.out.println("Produto adicionado com sucesso!");
+                    } else {
+                        System.out.println("Categoria ou Fornecedor não encontrado.");
+                    }
                     
-                    produtoFuncs.addProd(novoProduto);
                     break;
                 case 2:
                     System.out.println("Editar Produto:");
@@ -59,26 +66,41 @@ public class Main {
                     produtoFuncs.editProd(idEdit, nomeEdit, descEdit, precoEdit, idCatEdit, idFornEdit);
                     break;
                 case 3:
-                    produtoFuncs.listProd();
-                    break;
-                case 4:
                     List<Produto> produtos = produtoFuncs.listProd();
                     if (produtos.isEmpty()) {
                         System.out.println("Nenhum produto encontrado.");
                     } else {
                         System.out.println("Lista de Produtos:");
                         for (Produto produto : produtos) {
-                            System.out.printf("ID: %d, Nome: %s, Descrição: %s, Preço: %.2f, Categoria ID: %d, Fornecedor ID: %d%n",
+                            System.out.printf("ID: %d, Nome: %s, Descrição: %s, Preço: %.2f, Categoria: %s, Fornecedor: %s%n",
                                     produto.getId(), produto.getNome(), produto.getDesc(), produto.getPreco(),
-                                    produto.getCategoria().getId(), produto.getFornecedor().getId());
+                                    produto.getCategoria().getNome(), produto.getFornecedor().getNome());
                         }
                     }
                     break;
+                case 4:
+                    System.out.print("Informe o ID do Produto para remover: ");
+                    int idRemover = scanner.nextInt();
+                    produtoFuncs.removeProd(idRemover);
+                    System.out.println("Produto removido com sucesso!");
+                    break;
                 case 5:
                     System.out.print("Informe o ID do produto e a quantidade mínima para verificar: ");
-                    id = scanner.nextInt();
+                    int idCheck = scanner.nextInt();
                     int qtMinima = scanner.nextInt();
-                    produtoFuncs.checkEstoqueMin(id, qtMinima);
+                    produtoFuncs.checkEstoqueMin(idCheck, qtMinima);
+                    break;
+                case 6:
+                    System.out.println("Categorias Cadastradas:");
+                    for (Categoria categoria : Categoria.listarCategorias()) {
+                        System.out.println(categoria);
+                    }
+                    break;
+                case 7:
+                    System.out.println("Fornecedores Cadastrados:");
+                    for (Fornecedor fornecedor : Fornecedor.listarFornecedores()) {
+                        System.out.println(fornecedor);
+                    }
                     break;
                 case 0:
                     System.out.println("Saindo do sistema.");
