@@ -5,5 +5,5 @@ public interface ProdutoInt {
     List<Produto> listProd();
     void editProd(int id, String nome, String desc, double preco, int categoria, int fornecedor);
     void delProd(int id);
-    void checkEstoqueMin(int idProduto, int qtMin);
+    boolean checkEstoqueMin(int idProduto, int qtMin);
 }
