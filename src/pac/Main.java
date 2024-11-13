@@ -1,4 +1,6 @@
 package pac;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -40,17 +42,19 @@ public class Main {
                     int idCatAdd = scanner.nextInt();
                     System.out.print("Informe o ID do Fornecedor: ");
                     int idFornAdd = scanner.nextInt();
-            
+
                     Categoria categoriaAdd = new Categoria(idCatAdd, "Alimentos", "uiuiuiui");
-                    Fornecedor fornecedorAdd = new Fornecedor(idFornAdd, "Fornecedor Aurora", "123456789", "email@fornecedor.com", "rua das serpentes largas");
+                    Fornecedor fornecedorAdd = new Fornecedor(idFornAdd, "Fornecedor Aurora", "123456789",
+                            "email@fornecedor.com", "rua das serpentes largas");
                     if (categoriaAdd != null && fornecedorAdd != null) {
-                        Produto novoProduto = new Produto(idAdd, nomeAdd, descAdd, precoAdd, categoriaAdd, fornecedorAdd);   
+                        Produto novoProduto = new Produto(idAdd, nomeAdd, descAdd, precoAdd, categoriaAdd,
+                                fornecedorAdd);
                         produtoFuncs.addProd(novoProduto);
                         System.out.println("Produto adicionado com sucesso!");
                     } else {
                         System.out.println("Categoria ou Fornecedor não encontrado.");
                     }
-                    
+
                     break;
                 case 2:
                     System.out.println("Editar Produto:");
@@ -67,7 +71,7 @@ public class Main {
                     int idCatEdit = scanner.nextInt();
                     System.out.print("Informe o Novo ID do Fornecedor: ");
                     int idFornEdit = scanner.nextInt();
-            
+
                     produtoFuncs.editProd(idEdit, nomeEdit, descEdit, precoEdit, idCatEdit, idFornEdit);
                     break;
                 case 3:
@@ -77,7 +81,8 @@ public class Main {
                     } else {
                         System.out.println("Lista de Produtos:");
                         for (Produto produto : produtos) {
-                            System.out.printf("ID: %d, Nome: %s, Descrição: %s, Preço: %.2f, Categoria: %s, Fornecedor: %s%n",
+                            System.out.printf(
+                                    "ID: %d, Nome: %s, Descrição: %s, Preço: %.2f, Categoria: %s, Fornecedor: %s%n",
                                     produto.getId(), produto.getNome(), produto.getDesc(), produto.getPreco(),
                                     produto.getCategoria().getNome(), produto.getFornecedor().getNome());
                         }
@@ -95,15 +100,15 @@ public class Main {
                     int qtMinima = scanner.nextInt();
                     produtoFuncs.checkEstoqueMin(idCheck, qtMinima);
                     break;
-                 case 6:
+                case 6:
                     System.out.println("Categorias Cadastradas:");
-                    for (Categoria categoria : Categoria.listCategorias()) {
+                    for (Categoria categoria : Categoria.listarCategorias()) {
                         System.out.println(categoria);
                     }
                     break;
                 case 7:
                     System.out.println("Fornecedores Cadastrados:");
-                    for (Fornecedor fornecedor : Fornecedor.listFornecedores()) {
+                    for (Fornecedor fornecedor : Fornecedor.listarFornecedores()) {
                         System.out.println(fornecedor);
                     }
                     break;

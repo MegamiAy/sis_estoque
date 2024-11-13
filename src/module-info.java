@@ -4,5 +4,6 @@
 /**
  * 
  */
-module teste {
+module sis_estoque {
+	requires java.sql;
 }

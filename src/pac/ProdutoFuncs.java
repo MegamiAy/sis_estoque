@@ -1,9 +1,10 @@
 package pac;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProdutoFuncs implements ProdutoInt {
+public class ProdutoFuncs {
     private Connection connect = null;
 
     public void connectionDB() {
@@ -18,8 +19,8 @@ public class ProdutoFuncs implements ProdutoInt {
             pst.setString(2, produto.getNome());
             pst.setString(3, produto.getDesc());
             pst.setDouble(4, produto.getPreco());
-            pst.setInt(5, produto.getCategoria().getId());
-            pst.setInt(6, produto.getFornecedor().getId());
+            pst.setInt(5, produto.getCategoria().getIdC());
+            pst.setInt(6, produto.getFornecedor().getIdF());
 
             int rowsAffected = pst.executeUpdate();
             if (rowsAffected > 0) {
@@ -118,7 +119,6 @@ public class ProdutoFuncs implements ProdutoInt {
         return estoqueBaixo;
     }
 
-    @Override
     public Produto getProdutoById(int id) {
         connectionDB();
         String sql = "SELECT id, nome, descricao, preco, id_cat, id_forn FROM produto WHERE id = ?";
@@ -144,4 +144,3 @@ public class ProdutoFuncs implements ProdutoInt {
         return produto;
         }
     }
-}
