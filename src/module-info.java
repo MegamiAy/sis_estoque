@@ -4,5 +4,5 @@
 /**
  * 
  */
-module sis_estoque {
+module teste {
 }
