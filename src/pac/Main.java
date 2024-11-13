@@ -101,14 +101,16 @@ public class Main {
                     produtoFuncs.checkEstoqueMin(idCheck, qtMinima);
                     break;
                 case 6:
+                	List<Categoria> categorias = categoriaFuncs.listCategorias();
                     System.out.println("Categorias Cadastradas:");
-                    for (Categoria categoria : Categoria.listarCategorias()) {
+                    for (Categoria categoria : categorias) {
                         System.out.println(categoria);
                     }
                     break;
                 case 7:
+                	List<Fornecedor> fornecedores = fornecedorFuncs.listFornecedores();
                     System.out.println("Fornecedores Cadastrados:");
-                    for (Fornecedor fornecedor : Fornecedor.listarFornecedores()) {
+                    for (Fornecedor fornecedor : fornecedores) {
                         System.out.println(fornecedor);
                     }
                     break;
@@ -119,7 +121,6 @@ public class Main {
                     System.out.println("Opção inválida.");
             }
         } while (opcao != 0);
-
         scanner.close();
     }
 }
