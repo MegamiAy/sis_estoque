@@ -24,7 +24,7 @@ Um sistema projetado para gerenciar produtos e facilitar operações como adiç�
 2. Importe o banco de dados (`estoque.sql`) em seu sistema de gerenciamento de banco de dados.
 3. Configure as credenciais de conexão no arquivo `ConexaoMySQL.java`:
    - Usuário do banco de dados: `root`
-   - Senha: ``
+   - Senha: `ㅤㅤ ㅤㅤ `
 
 ### Banco de Dados
 ![image](https://github.com/user-attachments/assets/2dff072b-e3b3-4ab6-9585-3b0a7e8ccc6d)
