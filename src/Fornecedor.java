@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Fornecedor {
     private int idF;
     private String nome;
@@ -22,7 +25,7 @@ public class Fornecedor {
     public String getEmail() { return email; }
     public String getEndereco() { return endereco; }
     public static List<Fornecedor> listarFornecedores() {
-        return listaFornecedores;
+        return listFornecedores;
     }
 
     @Override
