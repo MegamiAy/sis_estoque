@@ -1,14 +1,17 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Estoque {
     private int idE;
     private Produto produto;
     private int quantidade;
-    private static List<Estoque> listaEstoque = new ArrayList<>();
+    private static List<Estoque> listEstoque = new ArrayList<>();
 
     public Estoque(int idE, Produto produto, int quantidade) {
         this.idE = idE;
         this.produto = produto;
         this.quantidade = quantidade;
-        listaEstoque.add(this);   
+        listEstoque.add(this);   
     }
 
     public int getIdE() {
@@ -24,7 +27,7 @@ public class Estoque {
     }
 
     public static List<Estoque> listarEstoques() {
-        return listaEstoque;
+        return listEstoque;
     }
 
     @Override
