@@ -41,6 +41,7 @@ public class CategoriaFuncs {
     
     public Categoria buscarId(int idCat) {
         Categoria categoria = null;
+        connectionDB();
         String sql = "SELECT * FROM categoria WHERE id = ?";
         try (PreparedStatement pst = connect.prepareStatement(sql)) {
             pst.setInt(1, idCat);
@@ -55,7 +56,21 @@ public class CategoriaFuncs {
             }
         } catch (SQLException ex) {
             System.out.println("Erro ao buscar categoria: " + ex.getMessage());
+            ex.printStackTrace();
+        } finally {
+            closeConnection(); // Fecha a conexão após o uso
         }
         return categoria;
+    }
+    
+    private void closeConnection() {
+        try {
+            if (connect != null && !connect.isClosed()) {
+                connect.close();
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao fechar conexão: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

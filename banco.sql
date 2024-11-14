@@ -35,7 +35,7 @@ CREATE TABLE estoque (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     id_prod INT NOT NULL,
     quantidade INT,
-    FOREIGN KEY (id_prod) REFERENCES produto(id)
+    FOREIGN KEY (id_prod) REFERENCES produto(id) ON DELETE CASCADE
 );
 
 -- Inserindo registros na tabela 'fornecedor'

@@ -42,6 +42,7 @@ public class FornecedorFuncs {
     
     public Fornecedor buscarId(int idForn) {
         Fornecedor fornecedor = null;
+        connectionDB();
         String sql = "SELECT * FROM fornecedor WHERE id = ?";
         try (PreparedStatement pst = connect.prepareStatement(sql)) {
             pst.setInt(1, idForn);
@@ -52,13 +53,27 @@ public class FornecedorFuncs {
                         rs.getString("nome"),
                         rs.getString("fone"),
                         rs.getString("email"),
-                        rs.getString("endereco"),
+                        rs.getString("endereco")
                     );
                 }
             }
         } catch (SQLException ex) {
             System.out.println("Erro ao buscar fornecedor: " + ex.getMessage());
+            ex.printStackTrace();
+        } finally {
+            closeConnection(); // Fecha a conexão após o uso
         }
         return fornecedor;
+    }
+    
+    private void closeConnection() {
+        try {
+            if (connect != null && !connect.isClosed()) {
+                connect.close();
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao fechar conexão: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

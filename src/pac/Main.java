@@ -13,33 +13,38 @@ public class Main {
         int opcao;
 
         do {
-            System.out.println("\nSistema de Estoque:");
-            System.out.println("1. Adicionar Produto");
-            System.out.println("2. Editar Produto");
-            System.out.println("3. Listar Produtos");
-            System.out.println("4. Remover Produto");
-            System.out.println("5. Verificar Estoque Mínimo");
+            System.out.println("\nEstoque:");
+            //System.out.println("X. Verificar Estoque de Prodtos atual");
+            //System.out.println("X. Adicionar Entrada de Produto em estoque");
+            //System.out.println("X. Adicionar Saída de Produto em estoque");
+            System.out.println("1. Verificar Estoque Mínimo");
+            System.out.println("\nProduto:");
+            System.out.println("2. Adicionar Produto");
+            System.out.println("3. Editar Produto"); 
+            System.out.println("4. Listar Produtos");
+            System.out.println("5. Remover Produto");
+            System.out.println("\nOutros:");
             System.out.println("6. Listar Categorias");
             System.out.println("7. Listar Fornecedores");
             System.out.println("0. Sair");
-            System.out.print("Escolha uma opção: ");
+            System.out.print("\nEscolha uma opção: ");
             opcao = scanner.nextInt();
 
             switch (opcao) {
                 case 1:
-                	produtoFuncs.addProd();
+                	produtoFuncs.checkEstoqueMin();
                     break;
                 case 2:
-                    produtoFuncs.editProd();
+                	produtoFuncs.addProd();
                     break;
                 case 3:
-                    produtoFuncs.listProd();
+                	produtoFuncs.editProd();
                     break;
                 case 4:
-                    produtoFuncs.delProd();
+                	produtoFuncs.listProd();
                     break;
                 case 5:
-                    produtoFuncs.checkEstoqueMin();
+                	produtoFuncs.delProd();
                     break;
                 case 6:
                 	categoriaFuncs.listCategorias();

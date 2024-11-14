@@ -16,9 +16,7 @@ public class ProdutoFuncs {
     }
 
     public void addProd() {
-        // Coleta de informações
         System.out.println("Adicionar Produto:");
-        
         int idAdd = 0;
         
         System.out.print("Informe o Nome do Produto: ");
@@ -28,23 +26,31 @@ public class ProdutoFuncs {
         String descAdd = scanner.nextLine();
         
         System.out.print("Informe o Preço do Produto: ");
-        double precoAdd = scanner.nextDouble();
-        
+        String precoAddInput = scanner.nextLine();
+        if (!isNumeric(precoAddInput)) { return; }
+        double precoAdd = Double.parseDouble(precoAddInput);
+
         System.out.print("Informe o ID da Categoria: ");
-        int idCatAdd = scanner.nextInt();
+        String idCatAddInput = scanner.nextLine();
+        if (!isNumeric(idCatAddInput)) { return; }
+        int idCatAdd = Integer.parseInt(idCatAddInput);
         
         System.out.print("Informe o ID do Fornecedor: ");
-        int idFornAdd = scanner.nextInt();
+        String idFornAddInput = scanner.nextLine();
+        if (!isNumeric(idFornAddInput)) { return; }
+        int idFornAdd = Integer.parseInt(idFornAddInput);  
+        
+        connectionDB();
+        if (connect == null) {
+            System.out.println("Erro de conexão com o banco de dados.");
+            return;
+        }
         
         Categoria categoriaAdd = categoriaFuncs.buscarId(idCatAdd);
         Fornecedor fornecedorAdd = fornecedorFuncs.buscarId(idFornAdd);
 
-        // Validação da Categoria e do Fornecedor1
         if (nomeAdd != null && descAdd != null && precoAdd != 0 && idCatAdd != 0 && idFornAdd != 0) {
             Produto novoProduto = new Produto(idAdd, nomeAdd, descAdd, precoAdd, categoriaAdd, fornecedorAdd);
-
-            connectionDB(); // Estabelece a conexão com o banco de dados
-
             String sql = "INSERT INTO produto (id, nome, descricao, preco, id_cat, id_forn) VALUES (?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pst = connect.prepareStatement(sql)) {
                 pst.setInt(1, novoProduto.getId());
@@ -64,7 +70,6 @@ public class ProdutoFuncs {
                 System.out.println("Erro ao cadastrar produto: " + ex.getMessage());
                 ex.printStackTrace();
             } finally {
-                // Fechar a conexão ao final do processo
                 try {
                     if (connect != null && !connect.isClosed()) {
                         connect.close();
@@ -80,29 +85,26 @@ public class ProdutoFuncs {
 
     public void editProd() {
         connectionDB();
-
         System.out.println("Editar Produto:");
         System.out.print("Informe o ID do Produto para editar: ");
-        int id = scanner.nextInt();
-        scanner.nextLine(); // Limpa o buffer do scanner
+        String idInput = scanner.nextLine();
+        if (!isNumeric(idInput)) { return; }
+        int id = Integer.parseInt(idInput);
 
-        // Primeiro, busque o produto atual para exibir os valores existentes e permitir que o usuário escolha quais deseja alterar
         String fetchSql = "SELECT * FROM produto WHERE id = ?";
         String updateSql = "UPDATE produto SET nome = ?, descricao = ?, preco = ?, id_cat = ?, id_forn = ? WHERE id = ?";
 
         try (PreparedStatement fetchStmt = connect.prepareStatement(fetchSql)) {
             fetchStmt.setInt(1, id);
-            
+
             try (ResultSet rs = fetchStmt.executeQuery()) {
                 if (rs.next()) {
-                    // Obtenha os valores atuais do produto
                     String nomeAtual = rs.getString("nome");
                     String descAtual = rs.getString("descricao");
                     double precoAtual = rs.getDouble("preco");
                     int idCatAtual = rs.getInt("id_cat");
                     int idFornAtual = rs.getInt("id_forn");
 
-                    // Solicite ao usuário para editar os campos, mantendo os atuais se ele pressionar Enter
                     System.out.print("Novo Nome do Produto (atual: " + nomeAtual + "): ");
                     String nome = scanner.nextLine();
                     nome = nome.isEmpty() ? nomeAtual : nome;
@@ -113,17 +115,16 @@ public class ProdutoFuncs {
 
                     System.out.print("Novo Preço do Produto (atual: " + precoAtual + "): ");
                     String precoInput = scanner.nextLine();
-                    double preco = precoInput.isEmpty() ? precoAtual : Double.parseDouble(precoInput);
+                    double preco = isNumeric(precoInput) ? Double.parseDouble(precoInput) : precoAtual;
 
                     System.out.print("Novo ID da Categoria (atual: " + idCatAtual + "): ");
                     String idCatInput = scanner.nextLine();
-                    int idCat = idCatInput.isEmpty() ? idCatAtual : Integer.parseInt(idCatInput);
+                    int idCat = isNumeric(idCatInput) ? Integer.parseInt(idCatInput) : idCatAtual;
 
                     System.out.print("Novo ID do Fornecedor (atual: " + idFornAtual + "): ");
                     String idFornInput = scanner.nextLine();
-                    int idForn = idFornInput.isEmpty() ? idFornAtual : Integer.parseInt(idFornInput);
+                    int idForn = isNumeric(idFornInput) ? Integer.parseInt(idFornInput) : idFornAtual;
 
-                    // Execute a atualização com os valores (novos ou mantidos)
                     try (PreparedStatement updateStmt = connect.prepareStatement(updateSql)) {
                         updateStmt.setString(1, nome);
                         updateStmt.setString(2, desc);
@@ -147,7 +148,6 @@ public class ProdutoFuncs {
             System.out.println("Erro ao atualizar produto: " + ex.getMessage());
             ex.printStackTrace();
         } finally {
-            // Fechar a conexão após o uso
             try {
                 if (connect != null && !connect.isClosed()) {
                     connect.close();
@@ -185,7 +185,7 @@ public class ProdutoFuncs {
                     System.out.printf(
                             "ID: %d, Nome: %s, Descrição: %s, Preço: %.2f, Categoria: %s, Fornecedor: %s%n",
                             produto.getId(), produto.getNome(), produto.getDesc(), produto.getPreco(),
-                            produto.getCategoria().getNome(), produto.getFornecedor().getNome());
+                            produto.getCategoria().getIdC(), produto.getFornecedor().getIdF());
                 }
             }
         } catch (SQLException se) {
@@ -196,14 +196,27 @@ public class ProdutoFuncs {
     }
 
     public void delProd() {
-    	System.out.print("Informe o ID do Produto para remover: ");
-        int idRemover = scanner.nextInt();
+        System.out.print("Informe o ID do Produto para remover: ");
+        String idRemoverInput = scanner.nextLine();
+        if (!isNumeric(idRemoverInput)) { return; }
+        int idRemover = Integer.parseInt(idRemoverInput);
+        
         connectionDB();
-        String sql = "DELETE FROM produto WHERE id = ?";
-        try (PreparedStatement pst = connect.prepareStatement(sql)) {
-            pst.setInt(1, idRemover);
-    
-            int rowsAffected = pst.executeUpdate();
+
+        String deleteEstoque = "DELETE FROM estoque WHERE id_prod = ?";
+        String deleteProduto = "DELETE FROM produto WHERE id = ?";
+        
+        try (PreparedStatement pstEstoque = connect.prepareStatement(deleteEstoque);
+             PreparedStatement pstProduto = connect.prepareStatement(deleteProduto)) {
+             
+            // Remove as referências na tabela 'estoque'
+            pstEstoque.setInt(1, idRemover);
+            pstEstoque.executeUpdate();
+
+            // Agora, remove o produto
+            pstProduto.setInt(1, idRemover);
+            int rowsAffected = pstProduto.executeUpdate();
+
             if (rowsAffected > 0) {
                 System.out.printf("Produto com ID %d excluído com sucesso.%n", idRemover);
             } else {
@@ -216,9 +229,14 @@ public class ProdutoFuncs {
     }
 
     public boolean checkEstoqueMin() {
-    	System.out.print("Informe o ID do produto e a quantidade mínima para verificar: ");
-        int idCheck = scanner.nextInt();
-        int qtMinima = scanner.nextInt();
+    	System.out.print("Informe o ID do produto: ");
+        String idCheckInput = scanner.nextLine();
+        if (!isNumeric(idCheckInput)) { return false; }
+        int idCheck = Integer.parseInt(idCheckInput);
+        System.out.print("Informe o quantidade minima do produto: ");
+        String qtMinimaInput = scanner.nextLine();
+        if (!isNumeric(qtMinimaInput)) { return false; }
+        int qtMinima = Integer.parseInt(qtMinimaInput);
         
         connectionDB();
         String sql = "SELECT quantidade FROM estoque WHERE id_prod = ?";
@@ -229,7 +247,7 @@ public class ProdutoFuncs {
             if (rst.next()) {
                 int qtAtual = rst.getInt("quantidade");
                 if (qtAtual <= qtMinima) {
-                    System.out.printf("Atenção: Produto ID %d está com estoque baixo (%d unidades).%n", idProduto, qtAtual);
+                    System.out.printf("Atenção: Produto ID %d está com estoque baixo (%d unidades).%n", qtMinima, qtAtual);
                     estoqueBaixo = true;
                 }
             }
@@ -263,6 +281,19 @@ public class ProdutoFuncs {
                 System.out.println("Erro ao buscar produto: " + se.getMessage());
             }
         return produto;
+    }
+    
+    // Método para verificar se uma String é numérica
+    private boolean isNumeric(String str) {
+        if (str == null || str.isEmpty()) {
+            return false;
+        }
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+        	System.out.println("Valor inválido. Por favor, insira um valor numérico.");
+            return false;
         }
     }
 }
