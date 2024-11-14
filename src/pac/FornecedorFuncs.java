@@ -11,6 +11,7 @@ public class FornecedorFuncs {
     }
 
     public List<Fornecedor> listFornecedores() {
+        System.out.println("Fornecedores Cadastrados:");
         connectionDB();
         String sql = "SELECT id, nome, fone, email, endereco FROM fornecedor";
         List<Fornecedor> fornecedores = new ArrayList<>();
@@ -28,9 +29,36 @@ public class FornecedorFuncs {
                 );
                 fornecedores.add(fornecedor);
             }
+            
+            for (Fornecedor fornecedor : fornecedores) {
+                System.out.println(fornecedor);
+            }
+            
         } catch (SQLException se) {
             System.out.println("Erro ao consultar fornecedores: " + se.getMessage());
         }
         return fornecedores;
+    }
+    
+    public Fornecedor buscarId(int idForn) {
+        Fornecedor fornecedor = null;
+        String sql = "SELECT * FROM fornecedor WHERE id = ?";
+        try (PreparedStatement pst = connect.prepareStatement(sql)) {
+            pst.setInt(1, idForn);
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    fornecedor = new Fornecedor(
+                        rs.getInt("id"),
+                        rs.getString("nome"),
+                        rs.getString("fone"),
+                        rs.getString("email"),
+                        rs.getString("endereco"),
+                    );
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Erro ao buscar fornecedor: " + ex.getMessage());
+        }
+        return fornecedor;
     }
 }

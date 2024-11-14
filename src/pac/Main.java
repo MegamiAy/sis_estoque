@@ -1,6 +1,5 @@
 package pac;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -28,91 +27,25 @@ public class Main {
 
             switch (opcao) {
                 case 1:
-                    System.out.println("Adicionar Produto:");
-                    System.out.print("Informe o ID do Produto: ");
-                    int idAdd = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.print("Informe o Nome do Produto: ");
-                    String nomeAdd = scanner.nextLine();
-                    System.out.print("Informe a Descrição do Produto: ");
-                    String descAdd = scanner.nextLine();
-                    System.out.print("Informe o Preço do Produto: ");
-                    double precoAdd = scanner.nextDouble();
-                    System.out.print("Informe o ID da Categoria: ");
-                    int idCatAdd = scanner.nextInt();
-                    System.out.print("Informe o ID do Fornecedor: ");
-                    int idFornAdd = scanner.nextInt();
-
-                    Categoria categoriaAdd = new Categoria(idCatAdd, "Alimentos", "uiuiuiui");
-                    Fornecedor fornecedorAdd = new Fornecedor(idFornAdd, "Fornecedor Aurora", "123456789",
-                            "email@fornecedor.com", "rua das serpentes largas");
-                    if (categoriaAdd != null && fornecedorAdd != null) {
-                        Produto novoProduto = new Produto(idAdd, nomeAdd, descAdd, precoAdd, categoriaAdd,
-                                fornecedorAdd);
-                        produtoFuncs.addProd(novoProduto);
-                        System.out.println("Produto adicionado com sucesso!");
-                    } else {
-                        System.out.println("Categoria ou Fornecedor não encontrado.");
-                    }
-
+                	produtoFuncs.addProd();
                     break;
                 case 2:
-                    System.out.println("Editar Produto:");
-                    System.out.print("Informe o ID do Produto para editar: ");
-                    int idEdit = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.print("Informe o Novo Nome do Produto: ");
-                    String nomeEdit = scanner.nextLine();
-                    System.out.print("Informe a Nova Descrição do Produto: ");
-                    String descEdit = scanner.nextLine();
-                    System.out.print("Informe o Novo Preço do Produto: ");
-                    double precoEdit = scanner.nextDouble();
-                    System.out.print("Informe o Novo ID da Categoria: ");
-                    int idCatEdit = scanner.nextInt();
-                    System.out.print("Informe o Novo ID do Fornecedor: ");
-                    int idFornEdit = scanner.nextInt();
-
-                    produtoFuncs.editProd(idEdit, nomeEdit, descEdit, precoEdit, idCatEdit, idFornEdit);
+                    produtoFuncs.editProd();
                     break;
                 case 3:
-                    List<Produto> produtos = produtoFuncs.listProd();
-                    if (produtos.isEmpty()) {
-                        System.out.println("Nenhum produto encontrado.");
-                    } else {
-                        System.out.println("Lista de Produtos:");
-                        for (Produto produto : produtos) {
-                            System.out.printf(
-                                    "ID: %d, Nome: %s, Descrição: %s, Preço: %.2f, Categoria: %s, Fornecedor: %s%n",
-                                    produto.getId(), produto.getNome(), produto.getDesc(), produto.getPreco(),
-                                    produto.getCategoria().getNome(), produto.getFornecedor().getNome());
-                        }
-                    }
+                    produtoFuncs.listProd();
                     break;
                 case 4:
-                    System.out.print("Informe o ID do Produto para remover: ");
-                    int idRemover = scanner.nextInt();
-                    produtoFuncs.delProd(idRemover);
-                    System.out.println("Produto removido com sucesso!");
+                    produtoFuncs.delProd();
                     break;
                 case 5:
-                    System.out.print("Informe o ID do produto e a quantidade mínima para verificar: ");
-                    int idCheck = scanner.nextInt();
-                    int qtMinima = scanner.nextInt();
-                    produtoFuncs.checkEstoqueMin(idCheck, qtMinima);
+                    produtoFuncs.checkEstoqueMin();
                     break;
                 case 6:
-                	List<Categoria> categorias = categoriaFuncs.listCategorias();
-                    System.out.println("Categorias Cadastradas:");
-                    for (Categoria categoria : categorias) {
-                        System.out.println(categoria);
-                    }
+                	categoriaFuncs.listCategorias();
                     break;
                 case 7:
-                	List<Fornecedor> fornecedores = fornecedorFuncs.listFornecedores();
-                    System.out.println("Fornecedores Cadastrados:");
-                    for (Fornecedor fornecedor : fornecedores) {
-                        System.out.println(fornecedor);
-                    }
+                	fornecedorFuncs.listFornecedores();
                     break;
                 case 0:
                     System.out.println("Saindo do sistema.");

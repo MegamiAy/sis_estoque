@@ -3,36 +3,162 @@ package pac;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class ProdutoFuncs {
     private Connection connect = null;
+    Scanner scanner = new Scanner(System.in);
+    CategoriaFuncs categoriaFuncs = new CategoriaFuncs();
+    FornecedorFuncs fornecedorFuncs = new FornecedorFuncs();
 
     public void connectionDB() {
         connect = ConexaoMySQL.getConexaoMySQL();
     }
 
-    public void addProd(Produto produto) {
-        connectionDB();
-        String sql = "INSERT INTO produto (id, nome, descricao, preco, id_cat, id_forn) VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement pst = connect.prepareStatement(sql)) {
-            pst.setInt(1, produto.getId());
-            pst.setString(2, produto.getNome());
-            pst.setString(3, produto.getDesc());
-            pst.setDouble(4, produto.getPreco());
-            pst.setInt(5, produto.getCategoria().getIdC());
-            pst.setInt(6, produto.getFornecedor().getIdF());
+    public void addProd() {
+        // Coleta de informações
+        System.out.println("Adicionar Produto:");
+        
+        int idAdd = 0;
+        
+        System.out.print("Informe o Nome do Produto: ");
+        String nomeAdd = scanner.nextLine();
+        
+        System.out.print("Informe a Descrição do Produto: ");
+        String descAdd = scanner.nextLine();
+        
+        System.out.print("Informe o Preço do Produto: ");
+        double precoAdd = scanner.nextDouble();
+        
+        System.out.print("Informe o ID da Categoria: ");
+        int idCatAdd = scanner.nextInt();
+        
+        System.out.print("Informe o ID do Fornecedor: ");
+        int idFornAdd = scanner.nextInt();
+        
+        Categoria categoriaAdd = categoriaFuncs.buscarId(idCatAdd);
+        Fornecedor fornecedorAdd = fornecedorFuncs.buscarId(idFornAdd);
 
-            int rowsAffected = pst.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Produto cadastrado com sucesso.");
+        // Validação da Categoria e do Fornecedor1
+        if (nomeAdd != null && descAdd != null && precoAdd != 0 && idCatAdd != 0 && idFornAdd != 0) {
+            Produto novoProduto = new Produto(idAdd, nomeAdd, descAdd, precoAdd, categoriaAdd, fornecedorAdd);
+
+            connectionDB(); // Estabelece a conexão com o banco de dados
+
+            String sql = "INSERT INTO produto (id, nome, descricao, preco, id_cat, id_forn) VALUES (?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement pst = connect.prepareStatement(sql)) {
+                pst.setInt(1, novoProduto.getId());
+                pst.setString(2, novoProduto.getNome());
+                pst.setString(3, novoProduto.getDesc());
+                pst.setDouble(4, novoProduto.getPreco());
+                pst.setInt(5, novoProduto.getCategoria().getIdC());
+                pst.setInt(6, novoProduto.getFornecedor().getIdF());
+
+                int rowsAffected = pst.executeUpdate();
+                if (rowsAffected > 0) {
+                    System.out.println("Produto cadastrado com sucesso.");
+                } else {
+                    System.out.println("Falha ao cadastrar produto.");
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro ao cadastrar produto: " + ex.getMessage());
+                ex.printStackTrace();
+            } finally {
+                // Fechar a conexão ao final do processo
+                try {
+                    if (connect != null && !connect.isClosed()) {
+                        connect.close();
+                    }
+                } catch (SQLException e) {
+                    System.out.println("Erro ao fechar conexão: " + e.getMessage());
+                }
             }
-        } catch (SQLException ex) {
-            System.out.println("Erro ao cadastrar produto: " + ex.getMessage());
-            ex.printStackTrace();
+        } else {
+            System.out.println("Os dados não foram preenchidos corretamente.");
         }
     }
 
-    public List<Produto> listProd() {
+    public void editProd() {
+        connectionDB();
+
+        System.out.println("Editar Produto:");
+        System.out.print("Informe o ID do Produto para editar: ");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // Limpa o buffer do scanner
+
+        // Primeiro, busque o produto atual para exibir os valores existentes e permitir que o usuário escolha quais deseja alterar
+        String fetchSql = "SELECT * FROM produto WHERE id = ?";
+        String updateSql = "UPDATE produto SET nome = ?, descricao = ?, preco = ?, id_cat = ?, id_forn = ? WHERE id = ?";
+
+        try (PreparedStatement fetchStmt = connect.prepareStatement(fetchSql)) {
+            fetchStmt.setInt(1, id);
+            
+            try (ResultSet rs = fetchStmt.executeQuery()) {
+                if (rs.next()) {
+                    // Obtenha os valores atuais do produto
+                    String nomeAtual = rs.getString("nome");
+                    String descAtual = rs.getString("descricao");
+                    double precoAtual = rs.getDouble("preco");
+                    int idCatAtual = rs.getInt("id_cat");
+                    int idFornAtual = rs.getInt("id_forn");
+
+                    // Solicite ao usuário para editar os campos, mantendo os atuais se ele pressionar Enter
+                    System.out.print("Novo Nome do Produto (atual: " + nomeAtual + "): ");
+                    String nome = scanner.nextLine();
+                    nome = nome.isEmpty() ? nomeAtual : nome;
+
+                    System.out.print("Nova Descrição do Produto (atual: " + descAtual + "): ");
+                    String desc = scanner.nextLine();
+                    desc = desc.isEmpty() ? descAtual : desc;
+
+                    System.out.print("Novo Preço do Produto (atual: " + precoAtual + "): ");
+                    String precoInput = scanner.nextLine();
+                    double preco = precoInput.isEmpty() ? precoAtual : Double.parseDouble(precoInput);
+
+                    System.out.print("Novo ID da Categoria (atual: " + idCatAtual + "): ");
+                    String idCatInput = scanner.nextLine();
+                    int idCat = idCatInput.isEmpty() ? idCatAtual : Integer.parseInt(idCatInput);
+
+                    System.out.print("Novo ID do Fornecedor (atual: " + idFornAtual + "): ");
+                    String idFornInput = scanner.nextLine();
+                    int idForn = idFornInput.isEmpty() ? idFornAtual : Integer.parseInt(idFornInput);
+
+                    // Execute a atualização com os valores (novos ou mantidos)
+                    try (PreparedStatement updateStmt = connect.prepareStatement(updateSql)) {
+                        updateStmt.setString(1, nome);
+                        updateStmt.setString(2, desc);
+                        updateStmt.setDouble(3, preco);
+                        updateStmt.setInt(4, idCat);
+                        updateStmt.setInt(5, idForn);
+                        updateStmt.setInt(6, id);
+
+                        int rowsAffected = updateStmt.executeUpdate();
+                        if (rowsAffected > 0) {
+                            System.out.println("Produto atualizado com sucesso.");
+                        } else {
+                            System.out.println("Produto não encontrado para atualização.");
+                        }
+                    }
+                } else {
+                    System.out.println("Produto com ID " + id + " não encontrado.");
+                }
+            }
+        } catch (SQLException | NumberFormatException ex) {
+            System.out.println("Erro ao atualizar produto: " + ex.getMessage());
+            ex.printStackTrace();
+        } finally {
+            // Fechar a conexão após o uso
+            try {
+                if (connect != null && !connect.isClosed()) {
+                    connect.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Erro ao fechar conexão: " + e.getMessage());
+            }
+        }
+    }
+    
+    public List<Produto> listProd() {	
         connectionDB();
         String sql = "SELECT id, nome, descricao, preco, id_cat, id_forn FROM produto";
         List<Produto> produtos = new ArrayList<>();
@@ -50,6 +176,18 @@ public class ProdutoFuncs {
                 );
                 produtos.add(produto);
             }
+            
+            if (produtos.isEmpty()) {
+                System.out.println("Nenhum produto encontrado.");
+            } else {
+                System.out.println("Lista de Produtos:");
+                for (Produto produto : produtos) {
+                    System.out.printf(
+                            "ID: %d, Nome: %s, Descrição: %s, Preço: %.2f, Categoria: %s, Fornecedor: %s%n",
+                            produto.getId(), produto.getNome(), produto.getDesc(), produto.getPreco(),
+                            produto.getCategoria().getNome(), produto.getFornecedor().getNome());
+                }
+            }
         } catch (SQLException se) {
             System.out.println("Erro ao consultar produtos: " + se.getMessage());
             se.printStackTrace();
@@ -57,38 +195,17 @@ public class ProdutoFuncs {
         return produtos;
     }
 
-    public void editProd(int id, String nome, String desc, double preco, int categoria, int fornecedor) {
-        connectionDB();
-        String sql = "UPDATE produto SET nome = ?, descricao = ?, preco = ?, id_cat = ?, id_forn = ? WHERE id = ?";
-        try (PreparedStatement pst = connect.prepareStatement(sql)) {
-            pst.setString(1, nome);
-            pst.setString(2, desc);
-            pst.setDouble(3, preco);
-            pst.setInt(4, categoria);
-            pst.setInt(5, fornecedor);
-            pst.setInt(6, id);
-        
-            int rowsAffected = pst.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Produto atualizado com sucesso.");
-            } else {
-                System.out.println("Produto não encontrado para atualização.");
-            }
-        } catch (SQLException se) {
-            System.out.println("Erro ao atualizar produto: " + se.getMessage());
-            se.printStackTrace();
-        }
-    }
-
-    public void delProd(int id) {
+    public void delProd() {
+    	System.out.print("Informe o ID do Produto para remover: ");
+        int idRemover = scanner.nextInt();
         connectionDB();
         String sql = "DELETE FROM produto WHERE id = ?";
         try (PreparedStatement pst = connect.prepareStatement(sql)) {
-            pst.setInt(1, id);
+            pst.setInt(1, idRemover);
     
             int rowsAffected = pst.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.printf("Produto com ID %d excluído com sucesso.%n", id);
+                System.out.printf("Produto com ID %d excluído com sucesso.%n", idRemover);
             } else {
                 System.out.println("Produto não encontrado para exclusão.");
             }
@@ -98,16 +215,20 @@ public class ProdutoFuncs {
         }
     }
 
-    public boolean checkEstoqueMin(int idProduto, int qtMin) {
+    public boolean checkEstoqueMin() {
+    	System.out.print("Informe o ID do produto e a quantidade mínima para verificar: ");
+        int idCheck = scanner.nextInt();
+        int qtMinima = scanner.nextInt();
+        
         connectionDB();
         String sql = "SELECT quantidade FROM estoque WHERE id_prod = ?";
         boolean estoqueBaixo = false;
         try (PreparedStatement pst = connect.prepareStatement(sql)) {
-            pst.setInt(1, idProduto);
+            pst.setInt(1, idCheck);
             ResultSet rst = pst.executeQuery();
             if (rst.next()) {
                 int qtAtual = rst.getInt("quantidade");
-                if (qtAtual <= qtMin) {
+                if (qtAtual <= qtMinima) {
                     System.out.printf("Atenção: Produto ID %d está com estoque baixo (%d unidades).%n", idProduto, qtAtual);
                     estoqueBaixo = true;
                 }
@@ -144,3 +265,4 @@ public class ProdutoFuncs {
         return produto;
         }
     }
+}

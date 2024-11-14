@@ -1,9 +1,6 @@
 package pac;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +12,7 @@ public class CategoriaFuncs {
     }
 
     public List<Categoria> listCategorias() {
+        System.out.println("Categorias Cadastradas:");
         connectionDB();
         String sql = "SELECT id, nome, descricao FROM categoria";
         List<Categoria> categorias = new ArrayList<>();
@@ -29,10 +27,35 @@ public class CategoriaFuncs {
                 );
                 categorias.add(categoria);
             }
+            
+            for (Categoria categoria : categorias) {
+                System.out.println(categoria);
+            }
+            
         } catch (SQLException se) {
             System.out.println("Erro ao consultar categorias: " + se.getMessage());
             se.printStackTrace();
         }
         return categorias;
+    }
+    
+    public Categoria buscarId(int idCat) {
+        Categoria categoria = null;
+        String sql = "SELECT * FROM categoria WHERE id = ?";
+        try (PreparedStatement pst = connect.prepareStatement(sql)) {
+            pst.setInt(1, idCat);
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    categoria = new Categoria(
+                        rs.getInt("id"),
+                        rs.getString("nome"),
+                        rs.getString("descricao")
+                    );
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Erro ao buscar categoria: " + ex.getMessage());
+        }
+        return categoria;
     }
 }
