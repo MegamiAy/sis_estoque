@@ -48,4 +48,18 @@ public static String mascara(String valor, String tipo) {
             return telefone;
         }
     }
+    // numérico, sim ou não
+    private boolean isNumerico(String str) {
+          if (str == null || str.isEmpty()) {
+              return false;
+          }
+          try {
+              Double.parseDouble(str);
+              return true;
+          } catch (NumberFormatException e) {
+          	System.out.println("Valor inválido. Por favor, insira um valor numérico.");
+              return false;
+          }
+      }
+  
 }
