@@ -44,4 +44,13 @@ public class EstoqueFuncs {
         }
         return estoques;
     }
+
+    public void addEstoque(Produto produto, quantidade){
+        
+    }
+
+    public void delEstoque(Produto produto, quantidade){
+        
+    }
+    
 }
