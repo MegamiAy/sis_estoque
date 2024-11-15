@@ -110,7 +110,8 @@ public class ProdutoFuncs {
 
     public void editProd() {
         connectionDB();
-        System.out.println("Editar Produto:");
+        listProd();
+        System.out.println("\nEditar Produto:");
         System.out.print("Informe o ID do Produto para editar: ");
         String idInput = scanner.nextLine();
         if (!helper.mascara(idInput, "numeric")) {
@@ -235,7 +236,8 @@ public class ProdutoFuncs {
     }
 
     public void delProd() {
-        System.out.print("Informe o ID do Produto para remover: ");
+    	listProd();
+        System.out.print("\nInforme o ID do Produto para remover: ");
         String idRemoverInput = scanner.nextLine();
         if (!helper.mascara(idRemoverInput, "numeric")) {
             System.out.println("ID inválido. Operação cancelada.");
@@ -273,7 +275,8 @@ public class ProdutoFuncs {
     }
 
     public boolean checkEstoqueMin() {
-    	System.out.print("Informe o ID do produto: ");
+    	listProd();
+    	System.out.print("\nInforme o ID do produto: ");
         String idCheckInput = scanner.nextLine();
         if (!helper.mascara(idCheckInput, "numeric")) { return false; }
         int idCheck = Integer.parseInt(idCheckInput);
