@@ -10,6 +10,7 @@ public class ProdutoFuncs {
     Scanner scanner = new Scanner(System.in);
     CategoriaFuncs categoriaFuncs = new CategoriaFuncs();
     FornecedorFuncs fornecedorFuncs = new FornecedorFuncs();
+    Helper helper = new Helper();
 
     public void connectionDB() {
         connect = ConexaoMySQL.getConexaoMySQL();
@@ -279,19 +280,5 @@ public class ProdutoFuncs {
                 System.out.println("Erro ao buscar produto: " + se.getMessage());
             }
         return produto;
-    }
-    
-    // Método para verificar se uma String é numérica
-    private boolean isNumeric(String str) {
-        if (str == null || str.isEmpty()) {
-            return false;
-        }
-        try {
-            Double.parseDouble(str);
-            return true;
-        } catch (NumberFormatException e) {
-        	System.out.println("Valor inválido. Por favor, insira um valor numérico.");
-            return false;
-        }
     }
 }
