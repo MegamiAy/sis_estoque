@@ -1,65 +1,59 @@
-// funções helper, para "facilitar", encurtar o caminho
-// exeplo de uso:
-// ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-// String valor = "123456.78";
-// String telefone = "11987654321";
-// ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-// System.out.println("Valor monetário formatado: " + mascara(valor, "money"));
-// System.out.println("Telefone formatado: " + mascara(telefone, "phone"));
+package pac;
+
+import java.sql.*;
 import java.text.NumberFormat;
 import java.util.Locale;
 
 public class Helper {
-  
-public static String mascara(String valor, String tipo) {
+	private Connection connect = null;
+
+    public boolean mascara(String valor, String tipo) {
         switch (tipo.toLowerCase()) {
             case "money":
-                return formatarValorMonetario(valor);
-            case "phone":
-                return formatarTelefone(valor);
+                // Formata valor monetário, mas retorna sempre true por consistência
+                formatarValorMonetario(valor);
+                return true;
+            case "numeric":
+                return verificarNumero(valor);
             default:
-                return valor; // retorna o dado original, para casos do tipo não for reconhecido
+                return false; // Retorna false para tipos não reconhecidos
         }
     }
+
     // dinheiro
-    private static String formatarValorMonetario(String valor) {
+    private static void formatarValorMonetario(String valor) {
         try {
             double valorNumerico = Double.parseDouble(valor.replace(",", "."));
             NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
-            return formatoMoeda.format(valorNumerico);
+            System.out.println(formatoMoeda.format(valorNumerico)); // Apenas exibe o valor formatado
         } catch (NumberFormatException e) {
-            return "Valor inválido";
+            System.out.println("Valor inválido");
         }
     }
-    // telefone
-    private static String formatarTelefone(String telefone) {
-        telefone = telefone.replaceAll("[^\\d]", "");
-        if (telefone.length() == 11) {
-            return String.format("(%s) %s-%s", 
-                                  telefone.substring(0, 2), 
-                                  telefone.substring(2, 7), 
-                                  telefone.substring(7));
-        } else if (telefone.length() == 10) {
-            return String.format("(%s) %s-%s", 
-                                  telefone.substring(0, 2), 
-                                  telefone.substring(2, 6), 
-                                  telefone.substring(6));
-        } else {
-            return telefone;
+
+    // verifica se é numérico
+    private static boolean verificarNumero(String str) {
+        if (str == null || str.isEmpty()) {
+        	System.out.println("Valor Vazio. Digite um valor numérico.");
+            return false; // Não é um número
+        }
+        try {
+            Double.parseDouble(str);
+            return true; // É um número
+        } catch (NumberFormatException e) {
+        	System.out.println("Valor inválido. Digite um valor numérico.");
+            return false; // Não é um número
         }
     }
-    // numérico, sim ou não
-    private boolean isNumerico(String str) {
-          if (str == null || str.isEmpty()) {
-              return false;
-          }
-          try {
-              Double.parseDouble(str);
-              return true;
-          } catch (NumberFormatException e) {
-          	System.out.println("Valor inválido. Por favor, insira um valor numérico.");
-              return false;
-          }
-      }
-  
+    
+    public void closeConnection() {
+        try {
+            if (connect != null && !connect.isClosed()) {
+                connect.close();
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao fechar conexão: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }

@@ -1,10 +1,12 @@
 package pac;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FornecedorFuncs {
     private Connection connect = null;
+    Helper helper = new Helper();
 
     public void connectionDB() {
         connect = ConexaoMySQL.getConexaoMySQL();
@@ -55,25 +57,16 @@ public class FornecedorFuncs {
                         rs.getString("email"),
                         rs.getString("endereco")
                     );
+                } else {
+                    System.out.println("Fornecedor não encontrado para o ID: " + idForn);
                 }
             }
         } catch (SQLException ex) {
             System.out.println("Erro ao buscar fornecedor: " + ex.getMessage());
             ex.printStackTrace();
         } finally {
-            closeConnection(); // Fecha a conexão após o uso
+            helper.closeConnection(); // Fecha a conexão após o uso
         }
         return fornecedor;
-    }
-    
-    private void closeConnection() {
-        try {
-            if (connect != null && !connect.isClosed()) {
-                connect.close();
-            }
-        } catch (SQLException e) {
-            System.out.println("Erro ao fechar conexão: " + e.getMessage());
-            e.printStackTrace();
-        }
     }
 }

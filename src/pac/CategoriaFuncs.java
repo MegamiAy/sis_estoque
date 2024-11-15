@@ -6,6 +6,7 @@ import java.util.List;
 
 public class CategoriaFuncs {
 	private Connection connect = null;
+	Helper helper = new Helper();
 
     public void connectionDB() {
         connect = ConexaoMySQL.getConexaoMySQL();
@@ -52,25 +53,16 @@ public class CategoriaFuncs {
                         rs.getString("nome"),
                         rs.getString("descricao")
                     );
+                } else {
+                    System.out.println("Categoria não encontrada para o ID: " + idCat);
                 }
             }
         } catch (SQLException ex) {
             System.out.println("Erro ao buscar categoria: " + ex.getMessage());
             ex.printStackTrace();
         } finally {
-            closeConnection(); // Fecha a conexão após o uso
+            helper.closeConnection(); // Fecha a conexão após o uso
         }
         return categoria;
-    }
-    
-    private void closeConnection() {
-        try {
-            if (connect != null && !connect.isClosed()) {
-                connect.close();
-            }
-        } catch (SQLException e) {
-            System.out.println("Erro ao fechar conexão: " + e.getMessage());
-            e.printStackTrace();
-        }
     }
 }
