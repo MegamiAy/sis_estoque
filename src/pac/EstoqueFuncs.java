@@ -45,12 +45,12 @@ public class EstoqueFuncs {
         return estoques;
     }
 
-    public void addEstoque(Produto produto, quantidade){
-        
+    public void addEstoque(Produto produto, int quantidade){
+       //aa 
     }
 
-    public void delEstoque(Produto produto, quantidade){
-        
+    public void delEstoque(Produto produto, int quantidade){
+        //aa
     }
     
 }
