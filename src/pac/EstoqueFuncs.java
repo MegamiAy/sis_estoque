@@ -36,7 +36,7 @@ public class EstoqueFuncs {
                     produto,                  
                     rst.getInt("quantidade")
                 );
-
+                
                 estoques.add(estoque);
             }
         } catch (SQLException se) {
@@ -45,12 +45,68 @@ public class EstoqueFuncs {
         return estoques;
     }
 
-    public void addEstoque(Produto produto, int quantidade){
-       //aa 
-    }
-
-    public void delEstoque(Produto produto, int quantidade){
-        //aa
+    // adicionar e deletar só vai alterar a quantidade.
+    public void editEstoque() {
+        connectionDB();
+        listEstoque(); // Lista os produtos com suas quantidades
+        System.out.println("\nEditar Estoque:");
+        System.out.print("Informe o ID do Produto para ajustar o estoque: ");
+        String idInput = scanner.nextLine();
+    
+        if (!helper.mascara(idInput, "numeric")) {
+            System.out.println("ID inválido. Operação cancelada.");
+            return;
+        }
+        int id = Integer.parseInt(idInput);
+    
+        String fetchSql = "SELECT quantidade FROM estoque WHERE id_prod = ?";
+        String updateSql = "UPDATE estoque SET quantidade = ? WHERE id-prod = ?";
+    
+        try (PreparedStatement fetchStmt = connect.prepareStatement(fetchSql)) {
+            fetchStmt.setInt(1, id);
+    
+            try (ResultSet rs = fetchStmt.executeQuery()) {
+                if (rs.next()) {
+                    int qtAtual = rs.getInt("quantidade");
+    
+                    System.out.print("Ajuste no Estoque (atual: " + qtAtual + ", use valores positivos para adicionar ou negativos para remover): ");
+                    String ajusteInput = scanner.nextLine();
+    
+                    if (!helper.mascara(ajusteInput, "numeric")) {
+                        System.out.println("Ajuste inválido. Operação cancelada.");
+                        return;
+                    }
+    
+                    int ajuste = Integer.parseInt(ajusteInput);
+                    int novaQtd = qtAtual + ajuste;
+    
+                    if (novaQtd < 0) {
+                        System.out.println("Ajuste resultaria em estoque negativo. Operação cancelada.");
+                        return;
+                    }
+    
+                    // Atualizar a quantidade
+                    try (PreparedStatement updateStmt = connect.prepareStatement(updateSql)) {
+                        updateStmt.setInt(1, novaQtd);
+                        updateStmt.setInt(2, id);
+    
+                        int rowsAffected = updateStmt.executeUpdate();
+                        if (rowsAffected > 0) {
+                            System.out.println("Estoque atualizado com sucesso. Nova quantidade: " + novaQtd);
+                        } else {
+                            System.out.println("Erro ao atualizar estoque.");
+                        }
+                    }
+                } else {
+                    System.out.println("Produto com ID " + id + " não encontrado.");
+                }
+            }
+        } catch (SQLException | NumberFormatException ex) {
+            System.out.println("Erro ao atualizar estoque: " + ex.getMessage());
+            ex.printStackTrace();
+        } finally {
+            helper.closeConnection();
+        }
     }
     
 }
