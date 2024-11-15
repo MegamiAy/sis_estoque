@@ -2,9 +2,12 @@ package pac;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class EstoqueFuncs {
     private Connection connect = null;
+    Scanner scanner = new Scanner(System.in);
+    Helper helper = new Helper();
     
     public void connectionDB() {
         connect = ConexaoMySQL.getConexaoMySQL();
@@ -12,35 +15,46 @@ public class EstoqueFuncs {
     
     public List<Estoque> listEstoques() {
         connectionDB();
-        String sql = "SELECT e.id, e.id_prod, e.quantidade, p.nome, p.descricao, p.preco, p.id_cat, p.id_forn " +
+        String sql = "SELECT e.id, e.quantidade, p.id AS id_prod, p.nome " +
                      "FROM estoque e " +
-                     "JOIN produto p ON e.id_prod = p.id"; // Join serve para -> pegar as informações do produto associado ao estoque
-
+                     "JOIN produto p ON e.id_prod = p.id";
         List<Estoque> estoques = new ArrayList<>();
-
         try (PreparedStatement pst = connect.prepareStatement(sql);
              ResultSet rst = pst.executeQuery()) {
 
             while (rst.next()) {
                 Produto produto = new Produto(
                     rst.getInt("id_prod"),
-                    rst.getString("nome"), 
-                    rst.getString("descricao"),
-                    rst.getDouble("preco"),
-                    new Categoria(rst.getInt("id_cat"), "", ""),
-                    new Fornecedor(rst.getInt("id_forn"), "", "", "", "")
+                    rst.getString("nome"), sql, 0, null, null
                 );
 
                 Estoque estoque = new Estoque(
                     rst.getInt("id"),
-                    produto,                  
+                    produto,
                     rst.getInt("quantidade")
                 );
-                
+
                 estoques.add(estoque);
             }
+
+            if (estoques.isEmpty()) {
+                System.out.println("Nenhum estoque encontrado.");
+            } else {
+                System.out.println("Lista de Estoques:");
+                for (Estoque estoque : estoques) {
+                    System.out.printf(
+                            "ID Estoque: %d, Produto: %s, Quantidade: %d%n",
+                            estoque.getIdE(),
+                            estoque.getProduto().getNome(),
+                            estoque.getQuantidade()
+                    );
+                }
+            }
         } catch (SQLException se) {
-            System.out.println("Erro ao consultar estoque: " + se.getMessage());
+            System.out.println("Erro ao consultar estoques: " + se.getMessage());
+            se.printStackTrace();
+        } finally {
+            helper.closeConnection();
         }
         return estoques;
     }
@@ -48,7 +62,7 @@ public class EstoqueFuncs {
     // adicionar e deletar só vai alterar a quantidade.
     public void editEstoque() {
         connectionDB();
-        listEstoque(); // Lista os produtos com suas quantidades
+        listEstoques(); // Lista os produtos com suas quantidades
         System.out.println("\nEditar Estoque:");
         System.out.print("Informe o ID do Produto para ajustar o estoque: ");
         String idInput = scanner.nextLine();
@@ -60,7 +74,7 @@ public class EstoqueFuncs {
         int id = Integer.parseInt(idInput);
     
         String fetchSql = "SELECT quantidade FROM estoque WHERE id_prod = ?";
-        String updateSql = "UPDATE estoque SET quantidade = ? WHERE id-prod = ?";
+        String updateSql = "UPDATE estoque SET quantidade = ? WHERE id_prod = ?";
     
         try (PreparedStatement fetchStmt = connect.prepareStatement(fetchSql)) {
             fetchStmt.setInt(1, id);

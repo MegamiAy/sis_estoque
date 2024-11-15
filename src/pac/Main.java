@@ -15,52 +15,46 @@ public class Main {
         do {
             System.out.println("\nEstoque:");
             System.out.println("1. Verificar Estoque de Prodtos atual"); //LIST
-            System.out.println("2. Adicionar Entrada de Produto em estoque"); //ADD
-            System.out.println("3. Adicionar Saída de Produto em estoque"); //REMOVE
-            System.out.println("4. Verificar Estoque Mínimo");
+            System.out.println("2. Alterar estoque"); 
+            System.out.println("3. Verificar Estoque Mínimo");
             System.out.println("\nProduto:");
-            System.out.println("5. Adicionar Produto");
-            System.out.println("6. Editar Produto"); 
-            System.out.println("7. Listar Produtos");
+            System.out.println("4. Adicionar Produto");
+            System.out.println("5. Editar Produto"); 
+            System.out.println("6. Listar Produtos");
             System.out.println("8. Remover Produto");
             System.out.println("\nOutros:");
-            System.out.println("9. Listar Categorias");
-            System.out.println("10. Listar Fornecedores");
+            System.out.println("7. Listar Categorias");
+            System.out.println("9. Listar Fornecedores");
             System.out.println("0. Sair");
             System.out.print("\nEscolha uma opção: ");
             opcao = scanner.nextInt();
 
             switch (opcao) {
-            /*
             	case 1:
-            		estoqueFuncs.listEstoque();
+            		estoqueFuncs.listEstoques();
             		break;
             	case 2:
-            		estoqueFuncs.addEstoque();
+            		estoqueFuncs.editEstoque();
                 	break;
-            	case 3:
-            		estoqueFuncs.delEstoque();
-                	break;
-                */
-                case 4:
+                case 3:
                 	produtoFuncs.checkEstoqueMin();
                     break;
-                case 5:
+                case 4:
                 	produtoFuncs.addProd();
                     break;
-                case 6:
+                case 5:
                 	produtoFuncs.editProd();
                     break;
-                case 7:
+                case 6:
                 	produtoFuncs.listProd();
                     break;
-                case 8:
+                case 7:
                 	produtoFuncs.delProd();
                     break;
-                case 9:
+                case 8:
                 	categoriaFuncs.listCategorias();
                     break;
-                case 10:
+                case 9:
                 	fornecedorFuncs.listFornecedores();
                     break;
                 case 0:
