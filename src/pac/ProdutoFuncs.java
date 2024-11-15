@@ -233,10 +233,8 @@ public class ProdutoFuncs {
         String idCheckInput = scanner.nextLine();
         if (!isNumeric(idCheckInput)) { return false; }
         int idCheck = Integer.parseInt(idCheckInput);
-        System.out.print("Informe o quantidade minima do produto: ");
-        String qtMinimaInput = scanner.nextLine();
-        if (!isNumeric(qtMinimaInput)) { return false; }
-        int qtMinima = Integer.parseInt(qtMinimaInput);
+        
+        int qtMinima = 20;
         
         connectionDB();
         String sql = "SELECT quantidade FROM estoque WHERE id_prod = ?";
