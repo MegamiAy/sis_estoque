@@ -14,10 +14,9 @@ Função principal que exibe o menu e permite ao usuário acessar as funcionalid
 Classe Produto -> declara as variáveis/atributos, getters e o toString 
 
 ProdutoFuncs -> implementa um conjunto de funcionalidades para gerenciar produtos no banco de dados.
-  - **Categorias** e Fornecedores: As funções interagem com as classes `CategoriaFuncs` e `FornecedorFuncs`.
+  - **Categorias** e **Fornecedores**: As funções interagem com as classes `CategoriaFuncs` e `FornecedorFuncs`.
 
-
-### CRUD 
+### métoodos de prod
 
 addProd -> Recebe os dados do usuário. Valida o formato dos dados. Busca a categoria e o fornecedor para verificar se existem. Insere o novo produto no banco de dados.
 
@@ -29,7 +28,23 @@ delProd -> Pergunta o ID do produto. Remove um produto e suas referências no ba
 
 checkEstoqueMin -> Como dito anteriormente, verificar se o estoque de um produto está abaixo do mínimo (20 unidades).
 
+### Helper
+A classe Helper foi criada para realizar operações repetidas em vários ponto do sistema. Ela inclui:
+- Métodos para aplicar máscaras (formatações e validações) em valores.
+- Um método para fechar conexões com o banco de dados de maneira segura.
 
+### Categorias e Fornecedores
+Ambas tem as mesmas funções.
+
+List -> Listar todas as categorias registradas.
+buscarID -> Buscar uma categoria específica pelo ID.
+
+### Estoque
+EstoqueFuncs -> gerencia o estoque de produtos em um banco de dados. 
+
+listEstoques-> Exibe todos os estoques registrados e suas quantidades. Usada dentro da função de editar.
+
+editEstoque -> Permite alterar a quantidade de produtos no estoque (adicionando ou removendo). Lista os estoques atuais. Solicita o ID do produto e a quantidade a ser ajustada (positiva ou negativa). Valida. Garante que a quantidade ajustada não resulte em um estoque negativo. Recupera a quantidade atual do produto. Atualiza o valor no banco se todas as condições forem atendidas. 
 
 ## Geralzão - Tem em quase todas
 
@@ -43,9 +58,11 @@ Instância de objetos -> para acessar as funções e variáveis de dentro de cad
 - CategoriaFuncs categoriaFuncs = new CategoriaFuncs();
 - FornecedorFuncs fornecedorFuncs = new FornecedorFuncs();
 - EstoqueFuncs estoqueFuncs = new EstoqueFuncs();
+- Helper helper = new Helper();
 
+connect = ConexaoMySQL.getConexaoMySQL(); -> Estabelece uma conexão com o banco de dados usando a classe ConexaoMySQL.
 
-- **Conexão com o banco** -> Feita via ConexaoMySQL.
+- **Conexão com o banco** -> Feita via `ConexaoMySQL`.
 - **Validações** -> Realizadas com a ajuda da classe `Helper`.
 
 Scanner scanner = new Scanner(System.in); -> é a criação do scanner importado.
