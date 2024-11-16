@@ -21,7 +21,7 @@ Um sistema projetado para gerenciar produtos e facilitar operações como adiç�
 
 ### Configuração e Instalação
 1. Clone o repositório: `git clone https://github.com/MegamiAy/sis_estoque.git`
-2. Importe o banco de dados (`estoque.sql`) em seu sistema de gerenciamento de banco de dados.
+2. Importe o banco de dados (`banco.sql`) em seu sistema de gerenciamento de banco de dados.
 3. Configure as credenciais de conexão no arquivo `ConexaoMySQL.java`:
    - Usuário do banco de dados: `root`
    - Senha: `ㅤㅤ ㅤㅤ `
