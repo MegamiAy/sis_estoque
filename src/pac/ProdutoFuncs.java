@@ -198,6 +198,7 @@ public class ProdutoFuncs {
     public List<Produto> listProd() {
         connectionDB();
         String sql = "SELECT id, nome, descricao, preco, id_cat, id_forn FROM produto";
+        // Criação de uma coleção (objetos produto) com o ArrayList
         List<Produto> produtos = new ArrayList<>();
         try (PreparedStatement pst = connect.prepareStatement(sql);
              ResultSet rst = pst.executeQuery()) {
@@ -218,6 +219,7 @@ public class ProdutoFuncs {
                 System.out.println("Nenhum produto encontrado.");
             } else {
                 System.out.println("Lista de Produtos:");
+                // Iterator com ArrayList
                 for (Produto produto : produtos) {
                     System.out.printf(
                             "ID: %d, Nome: %s, Descrição: %s, Preço: %.2f, Categoria: %s, Fornecedor: %s%n",
