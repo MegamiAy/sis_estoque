@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        // para interagir com as funções dentro dessas classes/interface
+        // para interagir com as funções dentro dessas classes
         ProdutoFuncs produtoFuncs = new ProdutoFuncs();
         CategoriaFuncs categoriaFuncs = new CategoriaFuncs();
         FornecedorFuncs fornecedorFuncs = new FornecedorFuncs();
