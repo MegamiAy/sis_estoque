@@ -16,7 +16,7 @@ Classe Produto -> declara as variáveis/atributos, getters e o toString
 ProdutoFuncs -> implementa um conjunto de funcionalidades para gerenciar produtos no banco de dados.
   - **Categorias** e **Fornecedores**: As funções interagem com as classes `CategoriaFuncs` e `FornecedorFuncs`.
 
-### métoodos de prod
+### métodos de prod
 
 addProd -> Recebe os dados do usuário. Valida o formato dos dados. Busca a categoria e o fornecedor para verificar se existem. Insere o novo produto no banco de dados.
 
@@ -37,6 +37,7 @@ A classe Helper foi criada para realizar operações repetidas em vários ponto 
 Ambas tem as mesmas funções.
 
 List -> Listar todas as categorias registradas.
+
 buscarID -> Buscar uma categoria específica pelo ID.
 
 ### Estoque
